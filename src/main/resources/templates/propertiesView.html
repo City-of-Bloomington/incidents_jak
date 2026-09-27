@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html lang="en">
+  <head th:replace="general::head('Properties')"></head>
+  <body>
+    <header>
+      <div th:replace="general::header-staff"></div>
+    </header>   
+    <div th:if="${errors}">
+      <div th:insert="general::errors(${errors})"></div>			
+    </div>
+    <div th:if="${messages}">
+      <div th:insert="general::messages(${messages})"></div>			
+    </div>						
+      <div th:fragment="properties(properties,totalBalance)">
+      <h2>Properties</h2>
+      <div th:switch="${properties}">
+	<h2 th:case="null">No properties found</h2>
+	<div th:case="*">
+	  <ul th:each="one,istat : ${properties}">
+	    <li th:if="${one.hasDamageTypeInfo()}"><span th:text="${istat.count+' - Damage Type: '+one.damageType.name}"></span></li>
+	    <ul>
+	      <li th:if="${one.hasBrandInfo()}"><span th:text="${one.brandInfo}"></span></li>
+
+	      <li th:if="${one.hasOwner()}"><span th:text="${'Owner: '+ one.owner}"></span></li>
+	      <li th:if="${one.hasDescription()}"><span th:text="${'Description: '+ one.description}"></span></li>						
+	      <li th:text="${'Value: '+one.valueFr}">&#36;</li>
+	    </ul>
+	    <li th:if="${istat.last}">
+	      <strong>Total Reported Properties Value: </strong>
+	      <span th:text="${totalBalance}"></span>
+	    </li>
+	  </ul>	      
+	</div>      
+      </div>
+    </div>
+  </body>
+</htmL>
+		

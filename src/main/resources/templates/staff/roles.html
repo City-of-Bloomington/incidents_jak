@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head th:replace="general::head('User Roles')"></head>
+  <body class="staff">
+    <header>
+      <div th:replace="general::header-staff"></div>
+    </header>
+    <main class="staff">
+      <div th:replace="general::staffMenu('Settings')">
+      </div>
+      <h4>User Roles</h4>
+      
+      <div th:if="${errors}">
+        <div th:insert="general::errors(${errors})"></div>
+      </div>
+
+      <div th:if="${messages}">
+        <div th:insert="general::messages(${messages})"></div>
+      </div>
+      <ul class="button-group">
+	<li>
+	  <a class="btn" th:href="@{/role/new}">
+	    New User Role
+	  </a>
+	</li>
+      </ul>	      
+      <div th:switch="${roles}">
+        <h4 th:case="null">No roles found </h4>
+        <div th:case="*">
+          <table><caption>User Roles</caption>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Related Actions</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr th:each="role : ${roles}">
+                <td th:text="${role.id}"></td>
+                <td th:text="${role.name}"></td>
+                <td th:text="${role.actions}?${role.actionsInfo}:''"></td>
+                <td><a th:href="@{/role/edit/{id}(id=${role.id})}">Edit</a></td>
+                <td><a th:href="@{/role/delete/{id}(id=${role.id})}">Delete</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </body>
+</htmL>
+

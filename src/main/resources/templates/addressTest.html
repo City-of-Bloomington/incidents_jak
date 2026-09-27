@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html lang="en">
+  <head th:replace="general::head('Incident')"></head>
+  <body>
+    <header th:replace="general::header"></header>
+    <main class="public-questions-wrapper">
+      <h2>Address Input Test</h2>
+      <div th:if="${errors}">
+        <div th:replace="general::errors(${errors})"></div>
+      </div>
+      <div th:if="${messages}">
+        <div th:replace="general::messages(${messages})"></div>
+      </div>
+      <p>*indicated required fields</p>
+      <form
+        action="#"
+        th:action="@{/addressCheck}"
+        th:object="${address}"
+        onsubmit="return verifyAddress()"
+        method="post"
+				>
+				<!-- type_id here is a temporary place holder for incident type that was selected  before address -->
+        <input type="hidden" th:field="${address.type_id}" />
+        <fieldset>
+          <legend>Location of Incident</legend>
+          <ul>
+            <li>To add your address in the field below, please start typing the address till you get a list of matching addresses then pick the right one.</li>
+						<li>Please note that City, Jurisdiction, Zip code and State fields are
+						automatically filled when you pick the right address.</li>
+          </ul>
+          <label for="addr_id">Address where the incident occured</label>
+					<div class="form-group">
+						<input
+							type="search"
+							autocomplete="off"
+							th:field="${address.name}"
+							id="addr_id"
+							size="60"
+							placeholder="address"
+							required="required"
+							/>
+					</div>
+          <input
+            type="hidden"
+            th:field="${address.addressId}"
+            id="addressId"
+          />
+          <input
+            type="hidden"
+            th:field="${address.subunitId}"
+            value=""
+            id="subunitId"
+          />
+          <input
+            type="hidden"
+            th:field="${address.latitude}"
+            id="latitude"
+            size="20"
+          />
+          <input
+            type="hidden"
+            th:field="${address.longitude}"
+            id="longitude"
+            size="20"
+          />
+          <label for="city">City</label>
+          <input
+            type="text"
+            th:field="${address.city}"
+            id="city"
+            size="60"
+            placeholder="City"
+          />
+          <label for="jurisdiction">Jurisdiction</label>
+          <input
+            type="text"
+            th:field="${address.jurisdiction}"
+            id="jurisdiction"
+            size="60"
+            placeholder="Jurisdiction"
+          />
+          <label for="zip">Zip Code</label>
+          <input
+            type="text"
+            th:field="${address.zipcode}"
+            id="zip"
+            size="10"
+            placeholder="Zip code"
+          />
+          <label for="state">State</label>
+          <input
+            type="text"
+            th:field="${address.state}"
+            id="state"
+            size="2"
+            placeholder="State"
+          />
+        </fieldset>
+        <div class="next_div">
+          <input type="submit" value="Next" />
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

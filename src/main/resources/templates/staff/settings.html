@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="general::head('Incident')"></head>
+
+<body class="staff">
+  <header>
+    <div th:replace="general::header-staff"></div>
+  </header>
+
+  <main class="staff">
+    <div th:replace="general::staffMenu('Settings')">
+    </div>
+    <h2>Settings</h2>
+    <div th:if="${errors}">
+      <div th:insert="general::errors(${errors})"></div>
+    </div>
+    <div th:if="${messages}">
+      <div th:insert="general::messages(${messages})"></div>
+    </div>
+    
+    <ul>
+      <li><a class="btn" th:href="@{/users}">Users</a></li>
+      <li><a class="btn" th:href="@{/personTypes}">Person Types</a></li>
+      <li><a class="btn" th:href="@{/incidentTypes}">Incident Types</a></li>
+      <li><a class="btn" th:href="@{/damageTypes}">Damage Types</a></li>
+      <li><a class="btn" th:href="@{/raceTypes}">Race Types</a></li>
+      <li><a class="btn" th:href="@{/fraudTypes}">Fraud & Scam Types</a></li>			
+      <li><a class="btn" th:href="@{/carDamageTypes}">Vehicle Damage Types</a></li>
+      <li><a class="btn" th:href="@{/actions}">Action Options</a></li>
+      <li><a class="btn" th:href="@{/roles}">User roles</a></li>
+      <li><a class="btn" th:href="@{/incompleteOptions}">Incomplete Schedule</a></li>
+    </ul>
+  </main>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html lang="en">
+  <head th:replace="general::head('Upload Image')"></head>
+  <body>
+    <header th:replace="general::header"></header>
+
+    <main class="public-questions-wrapper">
+      <h2>Add/Upload Photo(s)/Receipt(s)</h2>
+      <div th:if="${errors}">
+        <div th:insert="general::errors(${errors})"></div>
+      </div>
+
+      <div th:if="${messages}">
+        <div th:insert="general::messages(${messages})"></div>
+      </div>
+
+      <fieldset>
+        <caption>
+          <p>Upload Photo(s)/Receipts of the Incident</p>
+        </caption>
+
+        <ul th:replace="general::mediaInstructions(${media_max_count},${media_max_size})"></ul>
+
+        <div>
+          <form
+            enctype="multipart/form-data"
+            th:action="@{/media/save}"
+            method="post"
+          >
+            <input type="hidden" name="incident_id" th:value="${incident_id}" />
+            <div
+              class="field-group"
+              th:each="i:${#numbers.sequence(media_count+1,media_max_count)}"
+            >
+              <label for="file_id"><span th:text="${i}"> </span> - Photo File to Upload</label>
+              <input
+                type="file"
+                name="files"
+                id="file_id"
+                placeholder="Select file"
+              />
+            </div>
+
+            <div class="field-group">
+              <label for="note_id">Notes (any explanation of the photo, optional)</label>
+              <textarea
+                name="notes"
+                rows="5"
+                cols="60"
+		id="not_id"
+                placeholder="Image description"
+              ></textarea>
+            </div>
+            <input type="submit" value="Save" />
+          </form>
+        </div>
+      </fieldset>
+    </main>
+  </body>
+</html>

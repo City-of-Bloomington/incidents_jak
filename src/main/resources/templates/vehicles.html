@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html lang="en">
+  <head th:replace="general::head('Vehicle')"></head>
+  <body>
+    <header th:replace="general::header"></header>
+    <div th:if="${errors}">
+      <div th:insert="general::errors(${errors})"></div>
+    </div>
+    <div th:if="${messages}">
+      <div th:insert="general::messages(${messages})"></div>
+    </div>
+    <div th:fragment="vehicles(vehicles,canDelete)">
+      <h2>Incident Vehicle(s)</h2>
+      <div th:switch="${vehicles}">
+        <h2 th:case="null">No vehicle found</h2>
+        <div th:case="*">
+          <ul th:each="one : ${vehicles}">
+            <li th:text="${'Damage Type: '+one.carDamageType.name}"></li>
+            <li th:if="${one.hasMakeInfo()}">
+              <span th:text="${one.makeInfo}"></span>
+            </li>
+            <li th:if="${one.hasPlateInfo()}">
+              <span th:text="${one.plateInfo}"></span>
+            </li>
+            <li th:if="${one.hasOwner()}">
+              <span th:text="${'Owner: '+one.owner}"></span>
+            </li>
+            <li th:if="${one.hasValue()}">
+              <span th:text="${'Value: '+one.valueFr}"></span>
+            </li>
+            <li th:if="${one.hasDescription()}">
+              <span th:text="${'Description: '+one.description}"></span>
+            </li>
+            <li class="button-group">
+	      <a class="btn" th:href="@{/vehicle/edit/{id}(id=${one.id})}">
+		Edit Vehicle
+	      </a>
+            </li>
+            <li class="button-group" th:if="${canDelete}">
+	      <a class="btn" th:href="@{/vehicle/delete/{id}(id=${one.id})}">
+		Delete Vehicle
+	      </a>
+            </li>						
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

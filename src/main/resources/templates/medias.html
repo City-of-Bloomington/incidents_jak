@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html lang="en">
+  <head th:replace="general::head('Images')"></head>
+  <body>
+    <header th:replace="general::header"></header>
+    
+    <main class="public-questions-wrapper">
+      <div th:fragment="medias(medias,canDelete)">
+	<h2>Uploaded Photos</h2>
+	<div th:switch="${medias}">
+	  <h4 th:case="null">No images found</h4>
+	  <div th:case="*">
+	    <ul th:each="one : ${medias}">
+	      <li>
+		<strong>File Name:</strong>
+		<a th:href="@{/media/download/{id}(id=${one.id})}"><span th:text="${one.oldFileName}"></span></a>
+	      </li>
+	      
+	      <li th:if="${one.hasNotes()}">
+		<strong>Description:</strong>
+		<span th:text="${one.notes}"></span>
+	      </li>
+	      
+	      <li>
+		<strong>Photo:</strong>
+		<a class="btn" th:href="@{/media/image/{id}(id=${one.id})}" onclick="return popup(this, 'image')">Show Photo</a>
+	      </li>
+	      
+	      <li th:if="${canDelete}">
+		<a th:href="@{/media/delete/{id}(id=${one.id})}">Delete</a>
+	      </li>
+	    </ul>
+	  </div>
+	</div>
+      </div>
+    </main>
+  </body>
+</htmL>
+		

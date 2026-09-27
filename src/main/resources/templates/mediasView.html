@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html lang="en">
+  <head th:replace="general::head('Images')"></head>
+  <body>
+    <header>
+      <div th:replace="general::header-staff"></div>
+    </header>  
+    <div th:fragment="medias(medias)">
+      <h2>Uploaded Photos</h2>
+      <div th:switch="${medias}">
+	<h2 th:case="null">No files found</h2>
+	<div th:case="*">
+	  <ul th:each="one : ${medias}">
+	    <li>Download: <a th:href="@{/media/download/{id}(id=${one.id})}"><span th:text="${one.oldFileName}"></span></a></li>
+	    <li th:if="${one.hasNotes()}"><span th:text="${'Notes: '+one.notes}"></span></li>
+	    <li><a th:href="@{/media/image/{id}(id=${one.id})}" onclick="return popup(this, 'image')">Click to show</a></li>		
+	  </ul>
+	</div>      
+      </div>
+    </div>
+  </body>
+</htmL>
+		

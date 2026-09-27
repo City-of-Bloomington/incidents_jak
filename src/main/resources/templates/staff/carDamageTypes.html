@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head th:replace="general::head('Vehicle Damage Types')"></head>
+  <body class="staff">
+    <header>
+      <div th:replace="general::header-staff"></div>
+    </header> 
+    <main class="staff">
+      <div th:replace="general::staffMenu('Settings')">
+      </div>
+      <h2>Vehicle Damage Types</h2>
+      
+      <div th:if="${errors}">
+        <div th:insert="general::errors(${errors})"></div>
+      </div>
+      
+      <div th:if="${messages}">
+        <div th:insert="general::messages(${messages})"></div>
+      </div>
+      
+      <p><a th:href="@{/carDamageType/new}">Add new type</a></p>
+      <ul class="button-group">
+	<li>
+	  <a class="btn" th:href="@{/carDamageType/new}">
+	    New Vehicle Damage Type
+	  </a>
+	</li>
+      </ul>
+      <div th:switch="${types}">
+        <h4 th:case="null">No types found </h4>
+        <div th:case="*">
+          <table><caption>Vehicle Damage Types</caption>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="type : ${types}">
+                <td th:text="${type.id}"></td>
+                <td th:text="${type.name}"></td>
+                <td><a th:href="@{/carDamageType/edit/{id}(id=${type.id})}">Edit</a></td>
+                <td><a th:href="@{/carDamageType/delete/{id}(id=${type.id})}">Delete</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </body>
+</htmL>
+		

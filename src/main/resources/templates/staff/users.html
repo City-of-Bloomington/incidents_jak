@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head th:replace="general::head('User')"></head>
+  <body class="staff">
+    <header>
+      <div th:replace="general::header-staff"></div>
+    </header>
+    <main class="staff">
+      <div th:replace="general::staffMenu('Settings')"></div>
+      <h2>Users</h2>
+      <div th:if="${errors}">
+        <div th:insert="general::errors(${errors})"></div>
+      </div>
+      <div th:if="${messages}">
+        <div th:insert="general::messages(${messages})"></div>
+      </div>
+      <ul class="button-group">
+        <li>
+	  <a class="btn" th:href="@{/user/new}">
+	    New User
+	  </a>
+        </li>
+      </ul>
+      <div th:switch="${users}">
+        <h4 th:case="null">No users found</h4>
+        <div th:case="*">
+          <table><caption>Users</caption>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Active?</th>
+                <th>Roles</th>
+                <th>Role Actions</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.firstname}"></td>
+                <td th:text="${user.lastname}"></td>
+                <td th:text="${user.active}? 'Yes':'No'"></td>
+                <td th:text="${user.roles}? ${user.rolesInfo}:'' "></td>
+                <td th:text="${user.actions}? ${user.actionsInfo}:'' "></td>
+                <td><a class="btn" th:href="@{/user/edit/{id}(id=${user.id})}">Edit</a></td>
+                <td>
+                  <a class="btn" th:href="@{/user/delete/{id}(id=${user.id})}">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ - @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ - @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ - @author W. Sibo <sibow@bloomington.in.gov>
+ -
+ -->
+<html lang="en">
+  <head th:replace="general::head('Incident')"></head>
+  <body>
+    <header th:replace="general::header"></header>
+    <main class="public-questions-wrapper">
+      <h2>Address Input</h2>
+      <div th:if="${errors}">
+        <div th:replace="general::errors(${errors})"></div>
+      </div>
+      <div th:if="${messages}">
+        <div th:replace="general::messages(${messages})"></div>
+      </div>
+
+      <form
+        th:action="@{/addressFind}"
+        method="post"
+	>
+        <input type="hidden" name="type_id" th:value="${type_id}" />	
+        <fieldset>
+          <legend>Location of Incident</legend>
+          <ul>
+            <li>
+              To add the incident location address, start typing the street
+              address in the 'Street address' field below. A list of matching
+              addresses will be populated. Please select from the list the
+              correct one for where the incident occured.
+            </li>
+            <li>
+              <i>
+                Please note that City, Zip code and State fields are
+                automatically filled when you pick the right address.
+	      </i>
+            </li>
+          </ul>
+          <label for="addr_in" class="required">
+            Street address where the incident occured
+          </label>
+          <div class="form-group autocomplete-wrapper">
+            <span id="address-full"></span>
+            <input
+              type="text"
+              name="addr_in"
+	      value=""
+              id="addr_in"
+              size="60"
+              placeholder="Enter a street address, then you will pick from the list."
+              required="required"
+            />
+          </div>
+        </fieldset>
+        <p>Click on Next to continue</p>
+        <ul class="button-group">
+          <li>
+            <button type="submit" class="next-button">Next</button>
+          </li>
+        </ul>
+      </form>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,251 @@
+package in.bloomington.incident.model;
+/**
+ * @copyright Copyright (C) 2014-2015 City of Bloomington, Indiana. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+ * @author W. Sibo <sibow@bloomington.in.gov>
+ *
+ */
+
+import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
+
+
+public class Search implements java.io.Serializable{
+
+    private String id="", actionId="";
+    private String caseNumber="";
+    private String address="";
+    private String zip="";
+    // these two not used
+    private String city="",state="";
+    //
+    private String dateFrom="",dateTo="";
+    private String incidentTypeId="";
+
+    // person related
+    private String name="";
+    private String dln="";
+    private String dob="";
+		private String category="";// All, Person, Business
+    //
+    // the following not used
+    private String race="",sex="";
+		//
+		private String sortBy="id";
+    //
+    //
+    public Search(){
+
+    }
+
+    public String getId() {
+				return id;
+    }
+
+    public void setId(String id) {
+				this.id = id;
+    }
+		@Transient
+		public int getIdInt(){
+				int id_int = 0;
+				if(!id.isEmpty()){
+						if(id != null){
+								try{
+										id_int = Integer.parseInt(id);
+								}catch(Exception ex){}
+						}
+				}
+				return id_int;
+		}
+    public String getActionId() {
+				return actionId;
+    }
+
+    public void setActionId(String val) {
+				this.actionId = val;
+    }		
+    public String getSortBy() {
+				return sortBy;
+    }
+    public void setSortBy(String val) {
+				this.sortBy = val;
+    }		
+    public String getCaseNumber() {
+				return caseNumber;
+    }
+    public void setCaseNumber(String val) {
+				if(val != null && !val.isEmpty())
+						caseNumber = val;
+    }    
+
+    public String getAddress() {
+				return address;
+    }
+
+    public void setAddress(String val) {
+				if(val != null && !val.isEmpty())
+						address = val;
+    }
+    public String getCity() {
+				return city;
+    }
+
+    public void setCity(String val) {
+				if(val != null && !val.isEmpty())
+						city = val;
+    }
+    public String getZip() {
+				return zip;
+    }
+
+    public void setZip(String val) {
+				if(val != null && !val.isEmpty())
+						zip = val;
+    }
+    public String getDateFrom() {
+				return dateFrom;
+    }
+
+    public void setDateFrom(String val) {
+				if(val != null && !val.isEmpty())
+						dateFrom = val;
+    }
+    public String getDateTo() {
+				return dateTo;
+    }
+
+    public void setDateTo(String val) {
+				if(val != null && !val.isEmpty() && !val.equals("-1"))
+						dateTo = val;
+    }
+    public String getIncidentTypeId() {
+				return incidentTypeId;
+    }
+
+    public void setIncidentTypeId(String val) {
+				if(val != null && !val.isEmpty())
+						incidentTypeId = val;
+    }
+    public String getCategory() {
+				return category;
+    }
+
+    public void setCategory(String val) {
+				if(val != null && !val.isEmpty())
+						category = val;
+    }		
+    //
+    // person related
+    public String getName() {
+				return name;
+    }
+
+    public void setName(String val) {
+				if(val != null && !val.isEmpty())
+						name = val;
+    }
+		
+    public String getDln() {
+				return dln;
+    }
+
+    public void setDln(String val) {
+				if(val != null && !val.isEmpty())
+						dln = val;
+    }
+    public String getRace() {
+				return race;
+    }
+
+    public void setRace(String val) {
+				if(val != null && !val.isEmpty())
+						race = val;
+    }
+    public String getSex() {
+				return sex;
+    }
+
+    public void setSex(String val) {
+				if(val != null && !val.isEmpty())
+						sex = val;
+    }
+    public String getDob() {
+				return dob;
+    }
+
+    public void setDob(String val) {
+				if(val != null && !val.isEmpty())
+						dob = val;
+    }
+    // make sure we have at leas one thing to search for
+    public boolean isValid(){
+				if(id.isEmpty() &&
+					 caseNumber.isEmpty() &&
+					 address.isEmpty() &&
+					 zip.isEmpty() &&
+					 city.isEmpty() &&
+					 state.isEmpty() &&
+					 incidentTypeId.isEmpty() &&
+					 dateFrom.isEmpty() &&
+					 dateTo.isEmpty() &&
+					 name.isEmpty() &&
+					 dln.isEmpty() &&
+					 dob.isEmpty() &&
+					 race.isEmpty() &&
+					 actionId.isEmpty() &&
+					 category.isEmpty() &&
+					 sex.isEmpty()){
+						return false;
+				}
+				return true;
+    }
+	
+
+    @Override
+    public boolean equals(Object obj) { 
+          
+				if(this == obj)
+	    
+						return true; 
+				
+        if(obj == null || obj.getClass()!= this.getClass()) 
+            return false; 
+				
+        Search one = (Search) obj; 
+        return one.getId() == this.getId();
+    }
+    @Override
+    public int hashCode(){ 
+				int ret = 29;
+				int int_id = 0;
+				if(id.isEmpty()){
+						try{
+								int_id = Integer.parseInt(id);
+						}catch(Exception ex){}
+				}
+        return ret += int_id; 
+    }
+
+    @Override
+    public String toString() {
+				return id;
+    } 	
+		
+}
