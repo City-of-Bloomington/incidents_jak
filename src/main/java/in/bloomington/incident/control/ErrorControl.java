@@ -7,7 +7,8 @@ package in.bloomington.incident.control;
  */
 import java.util.List;
 import org.springframework.stereotype.Controller;
-import org.springframework.boot.web.servlet.error.ErrorController;
+// import org.springframework.boot.web.servlet.error.ErrorController;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.RequestDispatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-public class ErrorControl implements ErrorController  {
-
+public class ErrorControl {
+// implements ErrorController  {
+    /**
     @RequestMapping(value = "error", method = RequestMethod.GET)
     public ModelAndView renderErrorPage(HttpServletRequest
 					httpRequest,
@@ -69,4 +71,5 @@ public class ErrorControl implements ErrorController  {
     public String getErrorPath() {
         return "/error";
     }
+    */
 }

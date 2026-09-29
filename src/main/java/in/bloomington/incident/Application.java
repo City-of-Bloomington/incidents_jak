@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 
  // uncomment to run from jar file as stand alone
-/**
+
 @SpringBootApplication
  public class Application {
  
@@ -20,9 +20,10 @@ import org.springframework.beans.factory.annotation.Value;
        SpringApplication.run(Application.class, args);
     }
 }
-*/
+
 // comment out this when running from jar
 
+/**
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer{
     @Value("${spring.application.name}")
@@ -33,4 +34,4 @@ public class Application extends SpringBootServletInitializer{
     }
 
 }
-
+*/
