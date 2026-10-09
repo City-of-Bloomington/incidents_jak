@@ -133,10 +133,5 @@ public class CallBackServlet extends HttpServlet{
 	throws IOException {
 	doGet(request, response);
     }
-    /**
-    private void prepareConf(){
-	config = new
-	    Configuration(auth_end_point, token_end_point, callback_uri, client_id, client_secret, scope, discovery_uri, adfs_username);
-    }
-    */
+
 }

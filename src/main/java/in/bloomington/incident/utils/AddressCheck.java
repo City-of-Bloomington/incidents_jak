@@ -334,7 +334,7 @@ public class AddressCheck{
 				if(!jObj2.isNull("id")){
 				    full_addr = street;
 				    Item one = new Item();
-				    one.setId(new Integer(master_address_id));
+				    one.setId(Integer.valueOf(master_address_id));
 				    String type = jObj2.getString("type_code");
 				    String ident = jObj2.getString("identifier");
 				    full_addr += " "+type;
@@ -348,7 +348,7 @@ public class AddressCheck{
 		    else{ // no subunit
 			Item one = new Item();
 			one.setName(full_addr);
-			one.setId(new Integer(master_address_id));
+			one.setId(Integer.valueOf(master_address_id));
 			addresses.add(one);
 		    }
 		}

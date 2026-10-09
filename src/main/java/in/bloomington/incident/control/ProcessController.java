@@ -33,6 +33,7 @@ import in.bloomington.incident.service.ActionService;
 import in.bloomington.incident.service.ActionLogService;
 import in.bloomington.incident.service.RequestService;
 import in.bloomington.incident.service.UserService;
+import in.bloomington.incident.service.EmailService;
 
 import in.bloomington.incident.model.Incident;
 import in.bloomington.incident.model.IncidentType;
@@ -60,9 +61,10 @@ public class ProcessController extends TopController{
     ActionLogService actionLogService;
     @Autowired
     RequestService requestService;
+    // @Autowired
+    // private JavaMailSender mailSender;    
     @Autowired
-    private JavaMailSender mailSender;    
-
+    EmailService emailService;   
     @Autowired
     UserService userService;    
     @Autowired
@@ -188,13 +190,6 @@ public class ProcessController extends TopController{
 	    return "redirect:/staff/staff_intro";
 	}
 	incident = incidentService.findById(id);
-	/**
-	   if(!incident.canBeChanged()){ // if can not be changed
-	   addMessage("This incident can not be discarded");
-	   addMessagesAndErrorsToSession(session);
-	   return "redirect:/staff/staff_intro";
-	   }
-	*/
 	ActionLog actionLog = new ActionLog();
 	List<Action> actions = new ArrayList<>();
 	try{
@@ -384,7 +379,7 @@ public class ProcessController extends TopController{
 	    return "redirect:/login";
 	}
 	if(user.canApprove()){
-	    email.setSender(email_sender);
+	    String back = "";
 	    String message = email.getMessage();
 	    message += "<br />";
 	    message += "Please do not reply to this email as this is an automated system.<br />\n\n";
@@ -392,9 +387,19 @@ public class ProcessController extends TopController{
 	    //
 	    // send the email
 	    //
-	    EmailHelper emailer = new EmailHelper(mailSender, email);
-	    String back = emailer.send();
-	    addMessage("Email Sent Successfully");
+	    // EmailHelper emailer = new EmailHelper(mailSender, email);
+	    // String back = emailer.send();
+	    String toEmail = email.getReceiver();
+	    String fromEmail = email_sender;
+	    String subject = email.getSubject();
+	    back = emailService.sendSimpleEmail(toEmail,fromEmail, subject,  message);	
+	    if(!back.isEmpty()){
+		addError(back);
+		logger.error(back);
+	    }
+	    else{
+		addMessage("Email Sent Successfully");
+	    }
 	    addMessagesAndErrorsToSession(session);
 	    //
 	    // we may need add email to email logs
@@ -573,10 +578,22 @@ public class ProcessController extends TopController{
     }    
 
     private String sendApproveEmail(Email email){
-	String ret = "";
+	String ret = "", back="";
+	String toEmail = email.getReceiver();
+	String fromEmail = email_sender;
+	String subject = email.getSubject();
+	String message = email.getMessage();
+	back = emailService.sendSimpleEmail(toEmail,fromEmail, subject,  message);	
+	if(!back.isEmpty()){
+	    addError(back);
+	    logger.error(back);
+	    ret += back;
+	}
+	/**
 	email.setSender(email_sender);
 	EmailHelper emailer = new EmailHelper(mailSender, email);
 	ret = emailer.send();
+	*/
 	return ret;
     }
     /**

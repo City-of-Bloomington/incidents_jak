@@ -7,18 +7,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-    @Autowired
+    // @Autowired
     private JavaMailSender mailSender;
-
-    public void sendSimpleEmail(String toEmail, String subject, String body) {
+    //
+    // Constructor injection is preferred over @Autowired
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+    
+    public String sendSimpleEmail(String toEmail, String fromEmail,String subject, String body) {
+	String back = "";
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("your-email@gmail.com");
+        message.setFrom(fromEmail);
         message.setTo(toEmail);
         message.setSubject(subject);
         message.setText(body);
-
-        mailSender.send(message);
-        System.out.println("Email sent successfully!");
+	try{
+	    mailSender.send(message);
+	    back = "Email sent successfully";	    
+	}catch(Exception ex){
+	    back = "Error sending email "+ex;
+	}
+	return back;
     }
 }
 /**

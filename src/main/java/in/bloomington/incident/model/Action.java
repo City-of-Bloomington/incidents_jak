@@ -77,39 +77,39 @@ public class Action implements java.io.Serializable{
     }
 
     public int getId() {
-				return id;
+	return id;
     }
 
     public void setId(int id) {
-				this.id = id;
+	this.id = id;
     }
 
     @Transient
     public Integer getObjId(){
-				return new Integer(id);
+	return Integer.valueOf(id);
     }
     public String getName() {
-				return name;
+	return name;
     }
 
     public void setName(String name) {
-				this.name = name;
-				this.nameCap = toString();
+	this.name = name;
+	this.nameCap = toString();
     }
-		@Transient
-		public String getNameCap(){
-				if(nameCap == null || nameCap.isEmpty()){
-						this.nameCap = toString();
-				}
-				return nameCap;
-		}
-
+    @Transient
+    public String getNameCap(){
+	if(nameCap == null || nameCap.isEmpty()){
+	    this.nameCap = toString();
+	}
+	return nameCap;
+    }
+    
     public String getDescription() {
-				return description;
+	return description;
     }
 
     public void setDescription(String description) {
-				this.description = description;
+	this.description = description;
     }
 
     public Integer getWorkflowStep() {

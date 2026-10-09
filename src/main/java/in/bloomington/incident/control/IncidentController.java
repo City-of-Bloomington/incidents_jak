@@ -40,6 +40,7 @@ import in.bloomington.incident.service.RequestService;
 import in.bloomington.incident.service.UserService;
 import in.bloomington.incident.service.BusinessService;
 import in.bloomington.incident.service.AddressService;
+import in.bloomington.incident.service.EmailService;
 import in.bloomington.incident.model.Incident;
 import in.bloomington.incident.model.IncidentType;
 import in.bloomington.incident.model.Action;
@@ -83,8 +84,8 @@ public class IncidentController extends TopController{
     @Autowired
     AddressService addressService;		
     @Autowired
-    private JavaMailSender mailSender;
-    @Autowired 
+    EmailService emailService;   
+    @Autowired
     private HttpSession session;		
     //
     @Value("${incident.email.sender}")
@@ -563,7 +564,7 @@ public class IncidentController extends TopController{
     private String createRequestAndEmail(String url,
 					 Incident incident){
 	String ret = "";
-	String lastname = "";
+	String lastname = "", back = "";
 	int id = incident.getId();
 	Person person = null;
 	List<Person> persons = incident.getPersons();
@@ -593,7 +594,7 @@ public class IncidentController extends TopController{
 	// now we can send the submission email
 	//
 	String subject = " Bloomington's Police Department Online Reporting Confirmation ";
-	String to = incident.getEmail();
+	String eto = incident.getEmail();
 	String body = "Click on the link ";
 	body += url+"/incident/confirm/"+id+"/"+hash+" to confirm.<br />\n\n ";
 	body += " Once your report is reviewed it will either be accepted or rejected, at which time you will receive another email explaining the reason for denial or a report reference number.<br />\n\n";
@@ -604,12 +605,13 @@ public class IncidentController extends TopController{
 	body += "(812) 339-4477<br />\n";
 	body += "https://bloomington.in.gov/police<br />";
 	body += "\n";
-	EmailHelper emailHelper = new EmailHelper(mailSender, email_sender, to, subject, body);
+	// EmailHelper emailHelper = new EmailHelper(mailSender, email_sender, to, subject, body);
+	// String back = emailHelper.send();
 	// testing ignore email
-	if(to.startsWith("blah@")){
+	if(eto.startsWith("blah@")){
 	    return ret;
 	}
-	String back = emailHelper.send();
+	back = emailService.sendSimpleEmail(eto, email_sender, subject,  body);	
 	if(!back.isEmpty()){
 	    addError(back);
 	    logger.error(back);
@@ -664,14 +666,16 @@ public class IncidentController extends TopController{
 		body += "(812) 339-4477<br />\n";
 		body += "https://bloomington.in.gov/police<br />";
 		body += "\n";
-								
-
-		EmailHelper emailHelper = new EmailHelper(mailSender, email_sender, toEmail, subject, body);
-		message = emailHelper.send();
+		message = emailService.sendSimpleEmail(toEmail,email_sender, subject,  body);
 		if(!message.isEmpty()){
 		    addError(message);
 		    logger.error(message);
 		}
+		/**
+		EmailHelper emailHelper = new EmailHelper(mailSender, email_sender, toEmail, subject, body);
+		message = emailHelper.send();
+		*/
+
 	    }
 	    else{
 		message = "No email address available in the incident";

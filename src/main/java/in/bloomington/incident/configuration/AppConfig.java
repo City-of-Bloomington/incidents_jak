@@ -15,19 +15,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.beans.factory.BeanRegistrar;
-import org.springframework.beans.factory.BeanRegistry;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.core.env.Environment;
 
-@Configuration
+// not needed anymore
+//@Configuration
 public class AppConfig{
 
-    final static String fileLocation = "/srv/data/incidents/conf/application.properties";
+    /**
+    final static String fileLocation = "physical file location on server ";
+    
     @Bean(name = "propertiesfile")		
     public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 	PropertySourcesPlaceholderConfigurer properties = new PropertySourcesPlaceholderConfigurer();
@@ -35,25 +34,6 @@ public class AppConfig{
 	properties.setIgnoreResourceNotFound(false);
 	return properties;
     }
-
-    @Bean
-    public DispatcherServlet dispatcherServlet() {
-	DispatcherServlet dispatcherServlet = new DispatcherServlet();
-	dispatcherServlet.setThreadContextInheritable(true);
-	dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
-	return dispatcherServlet;
-    }
-    /**
-    @Bean
-    public ServletRegistrationBean dispatcherServletRegistration() {
-	
-	ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet());
-	registration.setLoadOnStartup(0);
-	registration.setName(DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
-	
-	return registration;
-    }
     */
-
     
 }

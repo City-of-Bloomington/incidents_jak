@@ -23,10 +23,11 @@ public class EmailHelper{
     String subject;
     String body;
     public EmailHelper(JavaMailSender mailSender,
-											 String fromEmail,
-											 String toEmail,
-											 String subject,
-											 String body){
+		       String fromEmail,
+		       String toEmail,
+		       String subject,
+		       String body
+		       ){
 	setMailSender(mailSender);
 	setFromEmail(fromEmail);
 	setToEmail(toEmail);

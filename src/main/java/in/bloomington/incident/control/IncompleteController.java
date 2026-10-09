@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.quartz.*;
+import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,7 @@ import in.bloomington.incident.service.IncidentIncompleteService;
 import in.bloomington.incident.service.ActionService;
 import in.bloomington.incident.service.ActionLogService;
 import in.bloomington.incident.service.UserService;
+import in.bloomington.incident.service.EmailService;
 import in.bloomington.incident.service.IncidentService;
 
 @Controller
@@ -60,6 +62,8 @@ public class IncompleteController extends TopController{
     IncidentService incidentService;   
     @Autowired
     ActionLogService actionLogService;
+    @Autowired
+    EmailService emailService;    
     @Autowired 
     private HttpSession session;		    
     @Value("${incident.email.sender}")
@@ -307,6 +311,7 @@ public class IncompleteController extends TopController{
     }
     private String sendResumeEmail(Incident one, String url){
 	String message = "";
+	String emailFrom = "noreply@bloomington.in.gov";
 	if(one != null){
 	    String subject = "Incident reporting submission request";
 	    if(one.hasEmail()){
@@ -320,8 +325,9 @@ public class IncompleteController extends TopController{
 		body += "\n";
 								
 		String toEmail = one.getEmail();
-		EmailHelper emailHelper = new EmailHelper(mailSender, sender, toEmail, subject, body);
-		message = emailHelper.send();
+		// EmailHelper emailHelper = new EmailHelper(mailSender, sender, toEmail, subject, body);
+		// message = emailHelper.send();		
+		message = emailService.sendSimpleEmail(toEmail,emailFrom, subject,  body);
 		if(!message.isEmpty()){
 		    addError(message);
 		    logger.error(message);

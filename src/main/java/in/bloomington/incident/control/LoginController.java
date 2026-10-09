@@ -69,7 +69,10 @@ public class LoginController extends TopController{
     @Value("${incident.adfs.adfs_username}")
     private String adfs_username;
     @Value("${incident.app.url}")
-    private String url;    
+    private String url;
+    @Autowired
+    HttpSession session;
+    
     //
     private String scope="openid";
     //
@@ -138,7 +141,7 @@ public class LoginController extends TopController{
     public String callbackNext(HttpServletRequest req,
 			       Model model
 			       ) {
-	HttpSession session = req.getSession();	
+	// HttpSession session = req.getSession();	
 	Enumeration values = req.getParameterNames();
 	String name= "";
 	String value = "";
@@ -160,11 +163,11 @@ public class LoginController extends TopController{
 	if(username != null){
 	    try{
 		User user = userService.findUser(username);
-		// System.err.println(" user "+user);
 		if(user != null){
 		    session.setAttribute("user", user);
+		    session.setAttribute("fullname", user.getFullname());
 		    if(user.isAdmin()){
-			session.setAttribute("isAmin", "true");
+			session.setAttribute("isAdmin", "true");
 		    }
 		    if(user.canApprove()){
 			session.setAttribute("canApprove", "true");
@@ -187,57 +190,7 @@ public class LoginController extends TopController{
 	}
 	return "redirect:"+return_str;
     }
-    
-    /**
-    //non CAS after login action
-    @PostMapping("/loginUser")
-    public String tryLogin(@RequestParam("username") String username,
-			   @RequestParam("password") String password,
-			   HttpServletRequest req,
-			   Model model
-			   ) {
-	HttpSession session = req.getSession(true);
-	model.addAttribute("app_url",app_url);
-	if(username == null || username.isEmpty()){
-	    return "staff/loginForm";
-	}
 
-	Helper helper = new Helper();
-	// for test purpose commented out
-	// uncomment for production
-	if(!helper.checkUser(username, password, ldap_host)){
-	    addMessage("invalid username or password");
-	    addMessagesAndErrorsToSession(session);
-	    return "staff/loginForm";
-	}
-	// userService was not working
-	try{
-	    User user = userService.findUser(username);
-	    if(user == null){
-		// addMessage("user not found "+username);
-		// addMessagesAndErrorsToSession(session);
-		addMessage("you do not have access to this system ");
-		addMessagesAndErrorsToSession(session);						
-		return "redirect:/login";
-	    }
-	    session.setAttribute("user", user);
-	    if(user.isAdmin()){
-		session.setAttribute("isAmin", "true");
-	    }
-	    if(user.canApprove()){
-		session.setAttribute("canApprove", "true");
-	    }
-	    if(user.canProcess()){
-		session.setAttribute("canProcess", "true");
-	    }				
-	    return "staff/staff_intro";
-	}catch(Exception ex){
-	    addMessage("you do not have access to this system ");
-	    addMessagesAndErrorsToSession(session);						
-	}
-	return "redirect:/login";						
-    }
-    */
     @GetMapping("/settings")
     public String showSettings(Model model,
 			       HttpSession session) {

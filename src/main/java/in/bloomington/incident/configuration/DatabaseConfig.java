@@ -19,7 +19,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 class DatabaseConfig{
 
-    // prefix set in application.properties file
     @Bean(name = "dbdatasource")
     @ConfigurationProperties(prefix = "incident.dbdatasource")
     @Primary
@@ -28,7 +27,6 @@ class DatabaseConfig{
     }
 
     @Bean(name = "jdbcService")
-    @Autowired
     public JdbcTemplate createJdbcTemplate_DbDataService(@Qualifier("dbdatasource") DataSource jdbcServiceDS) {
         return new JdbcTemplate(jdbcServiceDS);
     }

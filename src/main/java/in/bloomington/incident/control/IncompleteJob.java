@@ -30,7 +30,9 @@ import in.bloomington.incident.model.IncidentIncomplete;
 import in.bloomington.incident.service.IncidentIncompleteService;
 import in.bloomington.incident.service.ActionService;
 import in.bloomington.incident.service.ActionLogService;
+import in.bloomington.incident.service.EmailService;
 import in.bloomington.incident.utils.EmailHelper;
+
 
 @Component
 public class IncompleteJob extends QuartzJobBean{
@@ -54,7 +56,8 @@ public class IncompleteJob extends QuartzJobBean{
     
     @Autowired
     ActionLogService actionLogService;
-    
+    @Autowired
+    EmailService emailService;        
     @Autowired
     private Environment env;
     @Value("${server.servlet.context-path}")
@@ -89,9 +92,11 @@ public class IncompleteJob extends QuartzJobBean{
 		    String toEmail = incident.getEmail();
 		    if(!toEmail.startsWith("blah@")){
 			String body = "We noticed that you haven't completed your report. Please click <a href='"+url+"/incident/"+incident.getId()+"'>here</a> to finish and submit your report. If not, your report will not be seen or processed by a representative of the Bloomington Police Department.";
-
+			String back = emailService.sendSimpleEmail(toEmail,sender, subject,  body);
+			/**
 			EmailHelper emailHelper = new EmailHelper(mailSender,sender, toEmail, subject, body);
 			String back = emailHelper.send();
+			*/
 			if(back.isEmpty()){
 			    // success
 			    // action log
@@ -104,10 +109,6 @@ public class IncompleteJob extends QuartzJobBean{
 			}
 			else{
 			    System.err.println(" error sending email "+back);
-			
-			    // failure
-			// add email log
-			    
 			}
 		    }
 		}
