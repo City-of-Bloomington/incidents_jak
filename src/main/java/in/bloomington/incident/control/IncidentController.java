@@ -661,10 +661,10 @@ public class IncidentController extends TopController{
 		String body = "If for any reason, you stopped from completing your report, you may click on <a href='"+url+"/incomplete/resume/"+one.getId()+"/"+one.getReceivedNoSep()+"'>here</a> to resume and submit your report. If you completed your report you may discard this email. Thanks<br />\n\n";
 		body += "Please do not reply to this email as this is an automated system.";
 		body += "<br />\n\n";
-		body += "Bloomington Police Department (BPD)<br />\n";
-		body += "220 E 3rd St, Bloomington, IN 47401<br />\n";
-		body += "(812) 339-4477<br />\n";
-		body += "https://bloomington.in.gov/police<br />";
+		body += "Bloomington Police Department (BPD)\n";
+		body += "220 E 3rd St, Bloomington, IN 47401\n";
+		body += "(812) 339-4477\n";
+		body += "https://bloomington.in.gov/police\n";
 		body += "\n";
 		message = emailService.sendSimpleEmail(toEmail,email_sender, subject,  body);
 		if(!message.isEmpty()){
