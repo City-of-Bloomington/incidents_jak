@@ -122,14 +122,7 @@ public class LoginController extends TopController{
 	    session.setAttribute("scope",scope);
 	    if(config == null)
 		prepareConf();
-	    // session.setAttribute("config", config);
 	    session.setAttribute("url", url);	    
-	    // System.err.println("config "+config.toString());
-	    // System.err.println("url "+url);
-	    // System.err.println("login state "+state.toString());	    
-	    // save state in session for verification later	   
-	    // need to redirect
-	    //
 	    ret_str = redirectUrl.toString();
 	}
 	else{
@@ -141,7 +134,6 @@ public class LoginController extends TopController{
     public String callbackNext(HttpServletRequest req,
 			       Model model
 			       ) {
-	// HttpSession session = req.getSession();	
 	Enumeration values = req.getParameterNames();
 	String name= "";
 	String value = "";
@@ -149,19 +141,13 @@ public class LoginController extends TopController{
 	String url = "";
 	boolean error_flag = false;
 	String username = null;
-	while (values.hasMoreElements()) {
-	    name = ((String)values.nextElement()).trim();
-	    value = req.getParameter(name).trim();
-	    /**
-	    if(name.equals("username")){
-		username = value;
-		System.err.println(" username : "+username);		
+	try{
+	    while (values.hasMoreElements()) {
+		name = ((String)values.nextElement()).trim();
+		value = req.getParameter(name).trim();
 	    }
-	    */
-	}
-	username = (String) session.getAttribute("username");
-	if(username != null){
-	    try{
+	    username = (String) session.getAttribute("username");
+	    if(username != null){
 		User user = userService.findUser(username);
 		if(user != null){
 		    session.setAttribute("user", user);
@@ -175,15 +161,16 @@ public class LoginController extends TopController{
 		    if(user.canProcess()){
 			session.setAttribute("canProcess", "true");
 		    }
-		    return_str = "staff";
-		    return return_str;
+		    return_str = "/staff";
+		    return "redirect:"+return_str;
 		}
 		else{
 		    error_flag = true;
 		}
-	    }catch(Exception ex){
-		System.err.println(ex);
 	    }
+	}catch(Exception ex){
+	    System.err.println("error finding user ");
+	    System.err.println(ex);
 	}
 	if(error_flag){
 	    return_str = "/error";

@@ -5,42 +5,24 @@
  - @author W. Sibo <sibow@bloomington.in.gov>
  -
  -->
-<html lang="en">
-  <head th:replace="general::head('Staff Menu')"></head>
-  <body>
+ <html lang="en">
+  <head th:replace="general::head('Incident')"></head>
+  <body class="staff">
     <header>
       <div th:replace="general::header-staff"></div>
     </header>
-    <br />
-    <h3> Test Page </h3>
-    <ul>
-      <li><a th:href="@{'/index'}">Report Incident</a></li>
-    </ul>
-    <h3>Staff </h3>
-    <ul>
-      <li><a th:href="@{/login}">Login</a></li>            
-      <li><a th:href="@{/search}">Search </a></li>
-      <li><a th:href="@{/report}">Stats Report </a></li>
-      <li><a th:href="@{/search/incomplete}">Incomplete Incidents </a></li>
-      <li><a th:href="@{/search/received}">Received Incidents </a></li>
-      <li><a th:href="@{/search/received}">Confirmed Incidents </a></li>      
-      <li><a th:href="@{/search/approved}">Approved Incidents </a></li>
-			
-      <li><a th:href="@{/logout}">Logout</a></li>            
-    </ul>
-    <h3>Settings</h3>
-    <ul>
-      <li><a th:href="@{/addressBusinessInput}">New Business</a></li>
-      <li><a th:href="@{/businesses}">All Businesses</a></li>			
-      <li><a th:href="@{/users}">Users</a></li>
-      <li><a th:href="@{/personTypes}">Person Types</a></li>				
-      <li><a th:href="@{/incidentTypes}">Incident Types</a></li>
-      <li><a th:href="@{/damageTypes}">Damage Types</a></li>
-      <li><a th:href="@{/fraudTypes}">Fraud & Scam Types</a></li>			
-      <li><a th:href="@{/carDamageTypes}">Vehicle Damage Types</a></li>
-      <li><a th:href="@{/actions}">Action Options</a></li>
-      <li><a th:href="@{/roles}">User roles</a></li>
-
-    </ul>
+    <main class="staff">
+      <div th:replace="general::staffMenu('Received')">
+      </div>			
+      <p>You can perfom one of the following options depending on your privileges.</p>
+      <ul>
+        <li>Received: Handle newly received incidents </li>
+	<li>Confirmed: Handle newly email confirmed incidents </li>				
+        <li>Approved/Rejected: Handle recently approved/rejected incidents</li>
+        <li>Search: Search all incidents by incident number, type, date, etc</li>
+        <li>Reports: Run stats reports for certain period of time, week, month, year, or date range</li>
+        <li>Setting: Limited to 'Admin' group to handle app different types of settings</li>
+      </ul>
+    </main>
    </body>
 </html>
